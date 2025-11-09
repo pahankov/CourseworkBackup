@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4091ce1c-9618-45e2-bb1c-653f6e241e27" name="Changes" comment="vk api photos">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/CourseworkBackup.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="4091ce1c-9618-45e2-bb1c-653f6e241e27" name="Changes" comment="vk api photos json">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VK API.py" beforeDir="false" afterPath="$PROJECT_DIR$/VK API.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/photos.json" beforeDir="false" afterPath="$PROJECT_DIR$/photos.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1762674052711</updated>
       <workItem from="1762674060872" duration="4000" />
-      <workItem from="1762682784868" duration="21789000" />
+      <workItem from="1762682784868" duration="24251000" />
     </task>
     <task id="LOCAL-00001" summary="vk api">
       <option name="closed" value="true" />
@@ -102,7 +96,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762703001362</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="vk api photos json">
+      <option name="closed" value="true" />
+      <created>1762711481433</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1762711481433</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,9 +113,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="vk api" />
     <MESSAGE value="vk api photos" />
-    <option name="LAST_COMMIT_MESSAGE" value="vk api photos" />
+    <MESSAGE value="vk api photos json" />
+    <option name="LAST_COMMIT_MESSAGE" value="vk api photos json" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CourseworkBackup$VK_API.coverage" NAME="VK API Coverage Results" MODIFIED="1762711374010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CourseworkBackup$VK_API.coverage" NAME="VK API Coverage Results" MODIFIED="1762714784323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

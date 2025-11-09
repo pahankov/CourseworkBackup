@@ -53,9 +53,7 @@ class VK_API:
             return False
         return True
 
-    def get_vk_photos(self, user_id):
-        count = input("Введите кол-во фото: ")
-
+    def get_vk_photos(self, user_id, count=5):
         response = requests.get(
             "https://api.vk.com/method/photos.get",
             params={
@@ -75,48 +73,44 @@ class VK_API:
             return False
 
         elif 'response' in data:
-            photos = []
+            photos_info = []
+            used_names = set()
+
             for photo in data['response'][0]['items']:
-                best_size = self.get_best_size(photo['sizes'])
+                biggest_size = max(photo['sizes'], key=lambda x: x['width'])
                 likes_count = photo.get('likes', {}).get('count', 0)
-                upload_date = datetime.fromtimestamp(photo.get('date', 0)).strftime('%Y-%m-%d %H:%M:%S')
+                upload_date = datetime.fromtimestamp(photo.get('date', 0)).strftime('%Y-%m-%d')
+
+                base_name = f"{likes_count}"
+
+                if base_name in used_names:
+                    file_name = f"{likes_count}_{upload_date}.jpg"
+                else:
+                    file_name = f"{likes_count}.jpg"
+
+                used_names.add(base_name)
+
                 photo_info = {
-                    'url': best_size['url'],
-                    'likes': likes_count,
-                    'type': best_size['type'],
-                    'date': upload_date
+                    "file_name": file_name,
+                    "size": biggest_size['type']
                 }
-                photos.append(photo_info)
-            self.save_to_json(photos, user_id)
-            return photos
+                photos_info.append(photo_info)
+
+            self.save_to_json(photos_info)
+            return photos_info
 
         return []
 
-    def get_best_size(self, sizes):
-        priority_sizes = {size['type']: size for size in sizes}
-
-        for preferred in ['w', 'z', 'y', 'x', 'm', 's']:
-            if preferred in priority_sizes:
-                return priority_sizes[preferred]
-
-        return max(sizes, key=lambda x: x['width'])
-
-    def save_to_json(self, photos, user_id):
-        """Сохраняет информацию о фото в JSON файл"""
-        if not photos:
+    def save_to_json(self, photos_info):
+        if not photos_info:
             return
 
         filename = "photos.json"
 
-        data_to_save = {
-            'user_id': user_id,
-            'photos': photos
-        }
-
         with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(data_to_save, f, ensure_ascii=False, indent=2)
+            json.dump(photos_info, f, ensure_ascii=False, indent=2)
 
-        print(f"✅ Информация о {len(photos)} фото сохранена в {filename}")
+        print(f"✅ Информация о {len(photos_info)} фото сохранена в {filename}")
 
 vk_api = VK_API()
 
@@ -124,10 +118,9 @@ while True:
     user_id = input("Введите ID пользователя: ")
 
     if vk_api.check_user_profile(user_id):
-        photos = vk_api.get_vk_photos(user_id)
-
-        for photo in photos:
-            print(f"Лайков: {photo['likes']}, URL: {photo['url'][:50]}...")
+        count_input = input("Введите кол-во фото (по умолчанию 5): ")
+        count = int(count_input.strip() or 5)
+        photos = vk_api.get_vk_photos(user_id, count)
         break
     else:
         print("Попробуйте другого пользователя")
