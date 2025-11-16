@@ -51,6 +51,27 @@ class VK_API:
         if user.get('has_photo', 0) == 0:
             print("📭 У пользователя нет фото в профиле")
             return False
+        if user.get('is_closed') and not user.get('can_access_closed'):
+            print("❌ Профиль является приватным")
+            return False
+        photo_response = requests.get(
+            "https://api.vk.com/method/photos.get",
+            params={
+                'owner_id': user_id,
+                'album_id': 'profile',
+                'count': 1,  # Только 1 фото для проверки
+                'access_token': self.token,
+                'v': '5.199'
+            }
+        )
+
+        photo_data = photo_response.json()
+
+        if 'error' in photo_data:
+            error_code = photo_data['error']['error_code']
+            if 'error' in photo_data:
+                print("❌ Доступ к фото профиля запрещён")
+                return False
         return True
 
     def get_vk_photos(self, user_id, count=5):
@@ -77,7 +98,7 @@ class VK_API:
             used_names = set()
 
             for photo in data['response'][0]['items']:
-                biggest_size = max(photo['sizes'], key=lambda x: x['width'])
+                biggest_size = max(photo['sizes'], key=lambda x: x['width'] * x['height'])
                 likes_count = photo.get('likes', {}).get('count', 0)
                 upload_date = datetime.fromtimestamp(photo.get('date', 0)).strftime('%Y-%m-%d')
 
@@ -90,11 +111,12 @@ class VK_API:
 
                 used_names.add(base_name)
 
-                photo_info = {
+                photo_data = {
                     "file_name": file_name,
-                    "size": biggest_size['type']
+                    "size": biggest_size['type'],
+                    "url": biggest_size['url']
                 }
-                photos_info.append(photo_info)
+                photos_info.append(photo_data)
 
             self.save_to_json(photos_info)
             return photos_info
@@ -112,15 +134,3 @@ class VK_API:
 
         print(f"✅ Информация о {len(photos_info)} фото сохранена в {filename}")
 
-vk_api = VK_API()
-
-while True:
-    user_id = input("Введите ID пользователя: ")
-
-    if vk_api.check_user_profile(user_id):
-        count_input = input("Введите кол-во фото (по умолчанию 5): ")
-        count = int(count_input.strip() or 5)
-        photos = vk_api.get_vk_photos(user_id, count)
-        break
-    else:
-        print("Попробуйте другого пользователя")
