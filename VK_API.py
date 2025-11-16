@@ -59,7 +59,7 @@ class VK_API:
             params={
                 'owner_id': user_id,
                 'album_id': 'profile',
-                'count': 1,  # Только 1 фото для проверки
+                'count': 1,
                 'access_token': self.token,
                 'v': '5.199'
             }
@@ -129,8 +129,15 @@ class VK_API:
 
         filename = "photos.json"
 
+        json_data = [
+            {
+                "file_name": photo["file_name"],
+                "size": photo["size"]
+            }
+            for photo in photos_info
+        ]
+
         with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(photos_info, f, ensure_ascii=False, indent=2)
+            json.dump(json_data, f, ensure_ascii=False, indent=2)
 
         print(f"✅ Информация о {len(photos_info)} фото сохранена в {filename}")
-

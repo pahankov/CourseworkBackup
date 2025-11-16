@@ -8,11 +8,14 @@ load_dotenv()
 
 
 class YD_API:
+
+    FOLDER_NAME = "VK_PHOTO"
+
     def __init__(self):
         self.token = os.getenv('YD_ACCESS_TOKEN')
 
     def add_folder(self):
-        folder_name = "VK_PHOTO"
+        folder_name = self.FOLDER_NAME
         headers = {'Authorization': f'OAuth {self.token}'}
 
         response = requests.put(
@@ -26,7 +29,7 @@ class YD_API:
         return True
 
     def upload_photos_to_disk(self, photos_data):
-        folder_name = "VK_PHOTO"
+        folder_name = self.FOLDER_NAME
         headers = {'Authorization': f'OAuth {self.token}'}
 
         print(f"📤 Начинаем загрузку {len(photos_data)} фото...")
@@ -44,8 +47,5 @@ class YD_API:
                 headers=headers
             )
 
-            if response.status_code == 202:
-                print(f"✅ {file_name} - добавлен в очередь")
-            else:
-                error_msg = get_error_message_ya(response.status_code)
-                print(f"❌ {file_name} - статус: {error_msg}")
+            message = get_error_message_ya(response.status_code)
+            print(f"✅ {file_name} - {message}")
